@@ -1,0 +1,46 @@
+{
+  "name": "appointment-schedule-management-sys-be",
+  "version": "1.0.0",
+  "description": "appointment-schedule-management-sys-be",
+  "homepage": "https://github.com/AutoCookies/appointment-schedule-management-sys-be#readme",
+  "bugs": {
+    "url": "https://github.com/AutoCookies/appointment-schedule-management-sys-be/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AutoCookies/appointment-schedule-management-sys-be.git"
+  },
+  "license": "ISC",
+  "author": "cookiescooker",
+  "type": "module",
+  "main": "server.ts",
+  "scripts": {
+    "start": "tsx server.ts",
+    "dev": "tsx watch server.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "handlebars": "^4.7.8",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.5.0",
+    "nodemon": "^3.1.10",
+    "puppeteer": "^24.31.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.8.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

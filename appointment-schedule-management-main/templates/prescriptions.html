@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hồ sơ bệnh án - {{record._id}}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        /* Simple print-friendly styles */
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            color: #111;
+            margin: 0;
+            padding: 28px;
+            background: #fff;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .logo {
+            width: 86px;
+            height: 86px;
+            object-fit: contain;
+        }
+
+        .hospital {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .hospital-sub {
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 6px;
+        }
+
+        .meta {
+            color: #444;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        .section {
+            margin-top: 18px;
+        }
+
+        .label {
+            font-weight: 700;
+            color: #222;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .box {
+            background: #fff;
+            padding: 12px;
+            border: 1px solid #e7e7e7;
+            border-radius: 6px;
+        }
+
+        ul.plist {
+            margin: 0;
+            padding: 8px 20px;
+        }
+
+        ul.plist li {
+            margin: 6px 0;
+            line-height: 1.45;
+            color: #222;
+        }
+
+        .two-col {
+            display: flex;
+            gap: 12px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        .small {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .signature {
+            margin-top: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .sig-block {
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .sig-line {
+            margin-top: 36px;
+            border-top: 1px solid #333;
+            width: 220px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-footer {
+            margin-top: 28px;
+            color: #666;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+        /* Ensure PDF-friendly page break rules */
+        .section {
+            page-break-inside: avoid;
+        }
+
+        /* Prescription table */
+        .rx-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        .rx-table th,
+        .rx-table td {
+            border: 1px solid #e6e6e6;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .rx-table thead th {
+            background: #f7fafc;
+            font-weight: 700;
+        }
+
+        .rx-no {
+            width: 48px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img class="logo" src="{{hospitalLogo}}" alt="Logo" onerror="this.style.display='none'" />
+        <div>
+            <div class="hospital">
+                {{#if hospitalName}}
+                {{hospitalName}}
+                {{else}}
+                QTECH MED
+                {{/if}}
+            </div>
+            <div class="hospital-sub">{{hospitalAddress}}</div>
+            <div class="meta">Hồ sơ bệnh án — ID: {{record._id}}</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="label">Thông tin khám</span>
+        <div class="box">
+            <table style="width:100%; border-collapse:collapse;">
+                <tr>
+                    <td style="width:32%; padding:6px 8px;"><strong>Ngày khám:</strong></td>
+                    <td style="padding:6px 8px;">{{#if record.visitDate}}{{formatDate record.visitDate}}{{else}}-{{/if}}
+                    </td>
+                    <td style="width:22%; padding:6px 8px;"><strong>Mã BS:</strong></td>
+                    <td style="padding:6px 8px;">{{displayName record.doctorId}}</td>
+                </tr>
+                <tr>
+                    <td style="padding:6px 8px;"><strong>Bệnh nhân:</strong></td>
+                    <td style="padding:6px 8px;" colspan="3">{{displayName record.patientId}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="label">Triệu chứng / Chẩn đoán</span>
+        <div class="box">
+            {{#if record.diagnosis}}
+            {{{splitLines record.diagnosis}}}
+            {{else}}-{{/if}}
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="label">Phương pháp điều trị</span>
+        <div class="box">
+            {{#if record.treatment}}
+            {{{splitLines record.treatment}}}
+            {{else}}-{{/if}}
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="label">Đơn thuốc</span>
+        <div class="box">
+            {{#if record.prescriptions}}
+            {{{prescriptionsTable record.prescriptions}}}
+            {{else}}-{{/if}}
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="label">Ghi chú</span>
+        <div class="box">
+            {{#if record.notes}}
+            {{{splitLines record.notes}}}
+            {{else}}-{{/if}}
+        </div>
+    </div>
+
+    <div class="signature">
+        <div class="small">Ngày in: {{formatDateTime now}}</div>
+        <div class="sig-block">
+            <div>Người ký</div>
+            <div class="sig-line"></div>
+            <div class="small">{{doctorName}}</div>
+        </div>
+    </div>
+
+    <div class="page-footer">© {{#if hospitalName}}{{hospitalName}}{{else}}QTECH MED{{/if}}</div>
+</body>
+
+</html>
